@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="tsp" default="tsp.jar" basedir="." >
+
+  <property name="build.dir" value="build" />
+  <property name="src.dir"   value="src" />
+  <property name="lib.dir"   value="lib" />
+  <property name="doc.dir"   value="doc" />
+
+  <target name="tsp.jar" depends="compile.tsp">
+    <jar jarfile="tsp.jar">
+      <zipfileset dir="${build.dir}" prefix="" />
+      <manifest>
+        <attribute name="Main-Class" value="tsp.TravelingSalesman"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="compile.tsp">
+    <mkdir dir="${build.dir}"/>
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}"
+           debug="true"
+           debuglevel="lines,vars,source"
+           includeantruntime="false"
+           deprecation="true"
+           nowarn="off">
+      <classpath>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+
+  <target name="doc" depends="tsp.jar">
+    <mkdir dir="${doc.dir}"/>
+    <javadoc packagenames="tsp.*"
+             sourcepath="src"
+             defaultexcludes="yes"
+             destdir="${doc.dir}"
+             charset="UTF-8"
+             author="false"
+             version="false"
+             use="true"
+             windowtitle="Traveling Salesman Problem">
+      <doctitle><![CDATA[<h1>Traveling Salesman Problem</h1>]]></doctitle>
+      <link href="http://docs.oracle.com/javase/8/docs/api/" />
+      <link href="http://docs.oracle.com/javafx/2/api/" />
+      <classpath>
+        <pathelement location="${lib.dir}/junit.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core.jar" />
+        <pathelement location="${lib.dir}/sqlite-jdbc-3.16.1.jar" />
+      </classpath>
+    </javadoc>
+  </target>
+
+  <target name="clean">
+    <delete file="tsp.jar"/>
+    <delete file="/src/tsp/*~"/>
+    <delete file="/src/tsp/test/*~"/>
+    <delete dir="${build.dir}"/>
+    <delete dir="${doc.dir}"/>
+  </target>
+
+</project>
