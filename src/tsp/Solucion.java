@@ -13,13 +13,21 @@ public class Solucion{
   private double eval;
   //para numeros aleatorios
   private Random random;
+  //promedio de Distancias
+  private double distAvg;
+  //distancia máxima
+  private double distMax;
+  //costo
+  private double costo;
 
   /**
   *Constructor
   */
-  public Solucion(int[] solucion, long seed){
+  public Solucion(int[] solucion, long seed, double distAvg, double distMax){
     this.solucion = solucion;
     this.eval = 0.0;
+    this.distAvg = distAvg;
+    this.distMax = distMax;
     for(int i = 0; i < solucion.length - 1; ++i){
       this.eval += TravelingSalesman.getDistancia(solucion[i], solucion[i + 1]);
     }
@@ -56,4 +64,6 @@ public class Solucion{
     if((j + 1) >= solucion.length)
       this.eval += TravelingSalesman.getDistancia(solucion[j], solucion[j + 1]);
   }
+
+
 }

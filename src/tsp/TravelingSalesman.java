@@ -65,4 +65,21 @@ puclic class TravelingSalesman{
       System.err.println(e.getMessage());
     }
   }
+
+  /**
+  *calcula promedio de distancias
+  */
+  public static double getAvg(){
+    double suma = 0.0;
+    int c = 0;
+
+  }
+
+  /**
+  *Devuelve la distancia entre dos ciudades
+  */
+  public static double getDistancia(){
+    return 0.0;
+  }
+
 }
