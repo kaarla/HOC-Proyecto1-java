@@ -9,8 +9,9 @@
   <target name="tsp.jar" depends="compile.tsp">
     <jar jarfile="tsp.jar">
       <zipfileset dir="${build.dir}" prefix="" />
+      <zipgroupfileset dir="lib" includes="*.jar"/>
       <manifest>
-        <attribute name="Main-Class" value="tsp.TravelingSalesman"/>
+        <attribute name="Main-Class" value="tsp.RecocidoSimulado"/>
       </manifest>
     </jar>
   </target>

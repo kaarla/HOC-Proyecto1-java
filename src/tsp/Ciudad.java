@@ -1,4 +1,4 @@
-package src.tsp;
+package tsp;
 /**
 *Representación de una Ciudad en el TSP
 *@author Kar
@@ -13,9 +13,9 @@ public class Ciudad{
   *Constructor
   **/
   public Ciudad(double latitud, double longitud, int id){
-    latitud = latitud;
-    longitud = longitud;
-    id = id;
+    this.latitud = latitud;
+    this.longitud = longitud;
+    this.id = id;
   }
 
   /**
@@ -29,7 +29,7 @@ public class Ciudad{
   *Equals para ciudades
   */
   @Override
-  public boolean equals(Onject o){
+  public boolean equals(Object o){
     Ciudad c = (Ciudad) o;
     return (!(o instanceof Ciudad) ? false : this.id == c.getId());
   }
