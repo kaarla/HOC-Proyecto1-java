@@ -5,7 +5,11 @@ package tsp;
 *@author Kar
 */
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Conexion{
   //Conexión de sqlite
@@ -18,7 +22,7 @@ public class Conexion{
   public Conexion(){
     try{
       Class.forName("org.sqlite.JDBC"); //driver de sqlite
-      c = DriverManager.getConnection("jdbc:sqlite:sample.db"); //abre conexión
+      c = DriverManager.getConnection("jdbc:sqlite:src/db/tsp.db"); //abre conexión
     }catch (Exception e){
       System.err.println(e.getClass().getName() + ": " + e.getMessage());
       System.exit(0);

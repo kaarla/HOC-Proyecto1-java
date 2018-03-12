@@ -143,8 +143,10 @@ public class TravelingSalesman{
       System.err.println(e.getMessage());
     }finally{
       try{
-        if(set != null)
+        if(set != null){
+          System.out.println("guardó ciudades");
           set.close();
+        }
       }catch (Exception e){};
     }
   }
@@ -169,7 +171,12 @@ public class TravelingSalesman{
     }catch(SQLException e){
 	    System.err.println(e.getMessage());
   	}finally{
-  	  try { if (set != null) set.close(); } catch (Exception e) {};
+  	  try {
+        if (set != null){
+          System.out.println("guardo distancias");
+         set.close();
+       }
+     } catch (Exception e) {};
     }
   }
 
@@ -177,6 +184,7 @@ public class TravelingSalesman{
   *Inicializa el sistema para una instancia de TSP
   */
   public static void inicializa(long seed){
+    System.out.println("aki sigo" + seed);
     semilla = seed;
     random = new Random(semilla);
     guardaCiudades();

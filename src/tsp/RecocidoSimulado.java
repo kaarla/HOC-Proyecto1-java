@@ -34,21 +34,25 @@ public class RecocidoSimulado extends Thread{
   public static void leeCiudades(String archivo){
     BufferedReader br = null;
     try{
+      //System.out.println("aki ando");
 	    File file = new File(archivo); /* Archivo a leer */
 	    FileReader fr = new FileReader(file);
 	    br = new BufferedReader(fr);
-	    String s = br.readLine(); /* Esperamos que todas las ciudades estén en la misma línea */
-	    String[] enteros = s.split(", ");
+	    String s = br.readLine();
+      //System.out.println(s);
+	    String[] enteros = s.split(",");
+      //System.out.println("enteros" + enteros[0]);
 	    ciudades = new int[enteros.length];
 	    int cont = 0; /* contador */
 	    for(String ent: enteros)
-  		ciudades[cont++] = Integer.parseInt(ent);
+  		  ciudades[cont++] = Integer.parseInt(ent);
+      //System.out.println(ciudades);
   	}catch(FileNotFoundException e){
   	    System.err.println("El archivo no existe");
   	}catch(IOException e){
-  	    System.err.println(e.getMessage());
+  	    System.err.println(/*e.getMessage()*/ "aqui murio");
   	}finally{
-  	    try{if(br != null)br.close();}catch(Exception e){}
+  	    try{if(br != null)br.close();}catch(Exception e){System.err.println(/*e.getMessage()*/ "aqui muriox2");}
     }
   }
 
@@ -57,11 +61,11 @@ public class RecocidoSimulado extends Thread{
   */
   public static void main(String[] args){
     try{
-      // long semilla = Long.parseLong(args[0]);
-      long semilla = 30;
-      //leeCiudades(args[0]);
-      leeCiudades("tsp40.txt");
-      System.out.println(args[0] + args[1]);
+      //System.out.println("Iniciando");
+      long semilla = Long.parseLong(args[0]);
+      //long semilla = 30;
+      leeCiudades(args[1]);
+      //leeCiudades("tsp40.txt");
       TravelingSalesman.inicializa(semilla);
       Solucion inicial = new Solucion(ciudades);
       Solucion sol = TravelingSalesman.guardaAceptacionUmbrales(7.0, inicial);
