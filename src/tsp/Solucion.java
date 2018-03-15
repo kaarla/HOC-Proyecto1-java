@@ -193,8 +193,7 @@ public class Solucion{
   	sol += "Costo: " + this.getCosto() + ", factible: " + this.esFactible() + "\n" + "Ciudades: \n";
   	for(int ciudad : this.solucion)
   	    sol += ciudad + ",";
-  	sol += "\n";
-  	return sol.substring(0, sol.length() - 2);
+  	return sol.substring(0, sol.length() - 1) + "\n";
   }
 
 }
