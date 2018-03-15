@@ -2,19 +2,21 @@ package tsp;
 
 /**
  * Clase que representa a un par de genéricos en Java.
- * @author Kar 
+ * Usaremos este objeto para obtener el par de temperatura, solución necesario
+ * al calcular un lote para TSP.
+ * @author Kar
  */
-public class Par<X, Y>{
-    public final X primero; /* Primer elemento del par */
-    public final Y segundo; /* Segundo elemento del par */
+public class Par<P, S>{
+  public final P primero; /* Primer elemento del par */
+  public final S segundo; /* Segundo elemento del par */
 
-    /**
-     * Constructor.
-     * @param x - El primer elemento del par.
-     * @param y - El segundo elemento del par.
-     */
-    public Par(X x, Y y){
-	this.primero = x;
-	this.segundo = y;
-    }
+  /**
+   * Constructor.
+   * @param p El primer elemento del par.
+   * @param s El segundo elemento del par.
+   */
+  public Par(P p, S s){
+    this.primero = p;
+    this.segundo = s;
+  }
 }

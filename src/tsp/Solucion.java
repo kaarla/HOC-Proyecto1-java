@@ -33,7 +33,7 @@ public class Solucion{
   /**
    * Construye una solucón con un arreglo y el valor de esta (va a servir para las vecinas).
    * @param solucion Arreglo de ids que representa a la solución
-   * @param valor - El valor del costo de la solución.
+   * @param costo El valor del costo de la solución.
    */
   public Solucion(int[] solucion, double costo){
   	this.solucion = solucion;
@@ -76,30 +76,31 @@ public class Solucion{
   	    i = TSP.random.nextInt(solucion.length);
   	    j = TSP.random.nextInt(solucion.length);
   	}
-  	int[] vecina = new int[solucion.length]; /* Arreglo de enteros para la nueva Solución */
+  	int[] vecina = new int[solucion.length];
   	System.arraycopy(solucion, 0, vecina, 0, solucion.length);
   	double nCosto = this.costo;
 
-
   	if((i - 1) >= 0)
-  	    nCosto -= calculaW(vecina[i - 1], vecina[i]) / (distAvg*(solucion.length - 1));
+  	    nCosto -= calculaW(vecina[i - 1], vecina[i]) / (distAvg * (solucion.length - 1));
   	if((j - 1) >= 0)
-  	    nCosto -= calculaW(vecina[j - 1], vecina[j]) / (distAvg*(solucion.length - 1));
+  	    nCosto -= calculaW(vecina[j - 1], vecina[j]) / (distAvg * (solucion.length - 1));
   	if((i + 1) < vecina.length)
-  	    nCosto -= calculaW(vecina[i], vecina[i +1]) / (distAvg*(solucion.length - 1));
+  	    nCosto -= calculaW(vecina[i], vecina[i + 1]) / (distAvg * (solucion.length - 1));
   	if((j + 1) < vecina.length)
-  	    nCosto -= calculaW(vecina[j], vecina[j +1]) / (distAvg*(solucion.length - 1));
-  	int temp = vecina[i]; /* Variable temporal */
+  	    nCosto -= calculaW(vecina[j], vecina[j + 1]) / (distAvg * (solucion.length - 1));
+    //intercambio
+  	int temp = vecina[i];
   	vecina[i] = vecina[j];
   	vecina[j] = temp;
+
   	if((i - 1) >= 0)
-  	    nCosto += calculaW(vecina[i - 1], vecina[i]) / (distAvg*(solucion.length - 1));
+  	    nCosto += calculaW(vecina[i - 1], vecina[i]) / (distAvg * (solucion.length - 1));
   	if((j - 1) >= 0)
-  	    nCosto += calculaW(vecina[j - 1], vecina[j]) / (distAvg*(solucion.length - 1));
+  	    nCosto += calculaW(vecina[j - 1], vecina[j]) / (distAvg * (solucion.length - 1));
   	if((i + 1) < vecina.length)
-  	    nCosto += calculaW(vecina[i], vecina[i +1]) / (distAvg*(solucion.length - 1));
+  	    nCosto += calculaW(vecina[i], vecina[i + 1]) / (distAvg * (solucion.length - 1));
   	if((j + 1) < vecina.length)
-  	    nCosto += calculaW(vecina[j], vecina[j +1]) / (distAvg*(solucion.length - 1));
+  	    nCosto += calculaW(vecina[j], vecina[j + 1]) / (distAvg * (solucion.length - 1));
   	return new Solucion(vecina, nCosto);
   }
 
@@ -134,8 +135,8 @@ public class Solucion{
    */
   public boolean esFactible(){
   	for(int i = 0; i < solucion.length-1; ++i)
-  	    if(TSP.getDistancia(solucion[i], solucion[i+1]) == TSP.DX_OMISION)
-  		return false;
+      if(TSP.getDistancia(solucion[i], solucion[i+1]) == TSP.DX_OMISION)
+  		  return false;
   	return true;
   }
 
@@ -146,8 +147,8 @@ public class Solucion{
   public double distMax(){
   	double max = 0;
   	for(int i = 0; i < solucion.length; i++)
-  	    for(int j = i; j < solucion.length; j++)
-  		if(TSP.distancias[solucion[i]][solucion[j]] > max)
+      for(int j = i; j < solucion.length; j++)
+  		  if(TSP.distancias[solucion[i]][solucion[j]] > max)
   		    max = TSP.distancias[solucion[i]][solucion[j]];
   	return max;
   }
@@ -160,11 +161,11 @@ public class Solucion{
   	int distancias = 0; /* El número de distancias sumadas */
   	double suma = 0; /* La suma de las distancias */
   	for(int i = 0; i < solucion.length; i++)
-  	    for(int j = i; j < solucion.length; j++)
-  		if(TSP.distancias[solucion[i]][solucion[j]] > 0){
+      for(int j = i; j < solucion.length; j++)
+  		  if(TSP.distancias[solucion[i]][solucion[j]] > 0){
   		    distancias++;
   		    suma += TSP.distancias[solucion[i]][solucion[j]];
-  		}
+  		  }
   	return suma / distancias;
   }
 
@@ -176,9 +177,9 @@ public class Solucion{
    */
   public static double calculaW(int i, int j){
   	if(TSP.distancias[i][j] > 0)
-  	    return TSP.distancias[i][j]; //no aplica castigo
+      return TSP.distancias[i][j]; //no aplica castigo
   	else
-  	    return distMax * C; //aplica castigo
+  	  return distMax * C; //aplica castigo
   }
 
 
@@ -188,13 +189,12 @@ public class Solucion{
    */
   @Override
   public String toString(){
-  	String regreso = ""; /* Cadena a regresar */
-  	regreso += "Costo: " + this.getCosto() + ", factible: " + this.esFactible() + "\n";
-  	regreso += "Ciudades: \n";
+  	String sol = "";
+  	sol += "Costo: " + this.getCosto() + ", factible: " + this.esFactible() + "\n" + "Ciudades: \n";
   	for(int ciudad : this.solucion)
-  	    regreso += ciudad + ",";
-  	regreso += "\n";
-  	return regreso;
+  	    sol += ciudad + ",";
+  	sol += "\n";
+  	return sol.substring(0, sol.length() - 2);
   }
 
 }

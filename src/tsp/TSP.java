@@ -72,10 +72,7 @@ public final class TSP{
    * @return La distancia entre las dos ciudades
    */
   public static double getDistancia(int c1, int c2){
-  	if(distancias[c1][c2] > 0)
-  	    return distancias[c1][c2];
-  	else
-  	    return DX_OMISION;
+    return (distancias[c1][c2] > 0) ? distancias[c1][c2] : DX_OMISION;
   }
 
   /**
@@ -154,7 +151,7 @@ public final class TSP{
 
   /**
    * Inicializa instancia
-   * @param semilla semilla del generador de números aleatorios.
+   * @param seed semilla para el generador de números aleatorios.
    */
   public static void inicializa(long seed){
   	semilla = seed;
@@ -167,7 +164,7 @@ public final class TSP{
   /**
    * Calcula un lote
    * @param temperatura temperatura a partir de la que se correrá el sistema
-   * @param s - solución
+   * @param s solución
    * @return un par con el costo promedio del lote y la última solución aceptada
    */
   public static Par<Double, Solucion> calculaLote(double temperatura, Solucion s){

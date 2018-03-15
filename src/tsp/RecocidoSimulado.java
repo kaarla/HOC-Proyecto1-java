@@ -87,11 +87,11 @@ public class RecocidoSimulado extends Thread{
 	    leeInstancia(args[1]);
 	    TSP.inicializa(seed);
       Solucion barajeada = barajea(ciudades, seed);
-	    Solucion sol = TSP.aceptacionPorUmbralesGuarda(4.0, barajeada);
+	    Solucion sol = TSP.aceptacionPorUmbralesGuarda(4.0, barajeada); //Esto se puede lanzar en varios hilo
       //System.out.println("Semilla:" + seed);
 	    System.out.print(sol);
   	}catch(Exception e){
-      System.err.println("Uso del programa java -jar tsp.jar <semilla> <archivo_ciudades>, donde semilla es la semilla a usar y archivo_ciudades es un archivo con los ids de las ciudades de la instancia a evaluar, separados por coma y espacio.");
+      System.err.println("Uso del programa java -jar tsp.jar [semilla] [archivo_ciudades], donde semilla es la semilla a usar y archivo_ciudades es un archivo con los ids de las ciudades de la instancia a evaluar, separados por coma y espacio.");
   	}
    }
 }
