@@ -11,7 +11,7 @@
       <zipfileset dir="${build.dir}" prefix="" />
       <zipgroupfileset dir="lib" includes="*.jar"/>
       <manifest>
-        <attribute name="Main-Class" value="tsp.RecocidoSimulado"/>
+        <attribute name="Main-Class" value="tsp.Recocido"/>
       </manifest>
     </jar>
   </target>
@@ -51,7 +51,7 @@
       <classpath>
         <pathelement location="${lib.dir}/junit.jar" />
         <pathelement location="${lib.dir}/hamcrest-core.jar" />
-        <pathelement location="${lib.dir}/sqlite-jdbc-3.16.1.jar" />
+	<pathelement location="${lib.dir}/sqlite-jdbc-3.16.1.jar" />
       </classpath>
     </javadoc>
   </target>
@@ -63,5 +63,22 @@
     <delete dir="${build.dir}"/>
     <delete dir="${doc.dir}"/>
   </target>
+  <!--TO DO PRUEBAS -->
+  <!-- <target name="test" depends="tsp.jar">
+    <junit printsummary="yes" haltonfailure="no" showoutput="yes">
+      <formatter type="plain" usefile="false" />
+      <classpath>
+        <pathelement path="${build.dir}" />
+        <pathelement location="${lib.dir}/junit.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core.jar" />
+	<pathelement location="${lib.dir}/sqlite-jdbc-3.16.1.jar" />
+      </classpath>
+      <batchtest fork="yes">
+        <fileset dir="${src.dir}">
+          <include name="**/*Test*.java" />
+        </fileset>
+      </batchtest>
+    </junit>
+  </target> -->
 
 </project>

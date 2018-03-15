@@ -3,176 +3,198 @@ package tsp;
 import java.util.Random;
 
 /**
-*Clase para modelar soluciones a instancias de TSP
-*@author Kar
-*/
+ * Clase que representa una Solucion para el TSP
+ * @author Kar
+ */
 public class Solucion{
-  //ids de ciudades
+
+  /* Arreglo de ids de las ciudades que representan una solución */
   private int[] solucion;
-  //promedio de Distancias
-  private static double distAvg;
-  //distancia máxima
-  private static double distMax;
-  //costo
+  /* Valor del costo de la solución */
   private double costo;
-  //castigo para función de costo
-  public static final double C = 3;
+  /* Valor para el castigo de la función de costo */
+  public static final double C = 2;
+  /* La distancia máxima entre dos ciudades de solución */
+  private static double distMax;
+  /* El promedio de las distancias */
+  private static double distAvg;
 
   /**
-  *Constructor a partir de solución
-  */
+   * Constructor
+   * @param solucion Arreglo de ids que representa una solución
+   */
   public Solucion(int[] solucion){
-    this.solucion = solucion;
-    this.distAvg = calculaProm();
-    this.distMax = encuentraMax();
-    // this.random = new Random(seed);
-    this.costo = this.costo();
+  	this.solucion = solucion;
+  	distMax = this.distMax();
+  	distAvg = this.distAvg();
+  	this.costo = this.costo();
   }
 
   /**
-  *Constructor a partir de arreglo de ids y su costo
-  */
+   * Construye una solucón con un arreglo y el valor de esta (va a servir para las vecinas).
+   * @param solucion Arreglo de ids que representa a la solución
+   * @param valor - El valor del costo de la solución.
+   */
   public Solucion(int[] solucion, double costo){
-      this.solucion = solucion;
-      this.costo = costo;
+  	this.solucion = solucion;
+  	this.costo = costo;
   }
 
+  /**
+  * Obtiene el costo de la solucion
+  * @return costo de la solución
+  */
   public double getCosto(){
     return this.costo;
   }
 
+  /**
+  * Obtiene el arreglo que representa a la solución
+  * @return Arreglo con índices de las ciudades
+  */
   public int[] getSolucion(){
     return this.solucion;
   }
 
+  /**
+  * Obtiene el tamaño de la instancia sobre la que trabajamos.
+  * @return el tamaño de la instancia sobre la que trabajamos.
+  */
+  public int getSize(){
+    return this.solucion.length;
+  }
 
   /**
-  *Obtiene una vecina de la solución actual
-  */
+   * Devuelve una solución vecina de la actual
+   * Transforma a la solución en otra solución vecina y calcula su nuevo costo
+   * @return La solución vecina
+   */
   public Solucion vecina(){
-    int i, j;
-    i = j = 0;
-    int conectadas = this.encuentraConectadas();
-    while(i == j){
-      i = TravelingSalesman.random.nextInt(solucion.length);
-      j = TravelingSalesman.random.nextInt(solucion.length);
-    }
-    int[] vecina = new int[solucion.length];
-    System.arraycopy(solucion, 0, vecina, 0, solucion.length);
-    double costoNuevo = this.costo;
+  	int i, j;
+  	i = j = 0;
+  	while(i == j){ //Igualamos los índices para asegurar intercambio
+  	    i = TSP.random.nextInt(solucion.length);
+  	    j = TSP.random.nextInt(solucion.length);
+  	}
+  	int[] vecina = new int[solucion.length]; /* Arreglo de enteros para la nueva Solución */
+  	System.arraycopy(solucion, 0, vecina, 0, solucion.length);
+  	double nCosto = this.costo;
 
-    if((i - 1) >= 0)
-      costoNuevo -= aplicaCastigo(vecina[i - 1], vecina[i]) / conectadas;
-    if((j - 1) >= 0)
-      costoNuevo -= aplicaCastigo(vecina[j - 1], vecina[j]) / conectadas;
-    if((i + 1) < solucion.length)
-      costoNuevo -= aplicaCastigo(vecina[i], vecina[i + 1]) / conectadas;
-    if((j + 1) >= solucion.length)
-      costoNuevo -= aplicaCastigo(vecina[j], vecina[j + 1]) / conectadas;
-    //intercambiamos
-    int t = solucion[i];
-    solucion[i] = solucion[j];
-    solucion[j] = t;
-    if((i - 1) >= 0)
-      costoNuevo += aplicaCastigo(vecina[i - 1], vecina[i]) / conectadas;
-    if((j - 1) >= 0)
-      costoNuevo += aplicaCastigo(vecina[j - 1], vecina[j]) / conectadas;
-    if((i + 1) < solucion.length)
-      costoNuevo += aplicaCastigo(vecina[i], vecina[i + 1]) / conectadas;
-    if((j + 1) >= solucion.length)
-      costoNuevo += aplicaCastigo(vecina[j], vecina[j + 1]) / conectadas;
-    return new Solucion(vecina, costoNuevo);
+
+  	if((i - 1) >= 0)
+  	    nCosto -= calculaW(vecina[i - 1], vecina[i]) / (distAvg*(solucion.length - 1));
+  	if((j - 1) >= 0)
+  	    nCosto -= calculaW(vecina[j - 1], vecina[j]) / (distAvg*(solucion.length - 1));
+  	if((i + 1) < vecina.length)
+  	    nCosto -= calculaW(vecina[i], vecina[i +1]) / (distAvg*(solucion.length - 1));
+  	if((j + 1) < vecina.length)
+  	    nCosto -= calculaW(vecina[j], vecina[j +1]) / (distAvg*(solucion.length - 1));
+  	int temp = vecina[i]; /* Variable temporal */
+  	vecina[i] = vecina[j];
+  	vecina[j] = temp;
+  	if((i - 1) >= 0)
+  	    nCosto += calculaW(vecina[i - 1], vecina[i]) / (distAvg*(solucion.length - 1));
+  	if((j - 1) >= 0)
+  	    nCosto += calculaW(vecina[j - 1], vecina[j]) / (distAvg*(solucion.length - 1));
+  	if((i + 1) < vecina.length)
+  	    nCosto += calculaW(vecina[i], vecina[i +1]) / (distAvg*(solucion.length - 1));
+  	if((j + 1) < vecina.length)
+  	    nCosto += calculaW(vecina[j], vecina[j +1]) / (distAvg*(solucion.length - 1));
+  	return new Solucion(vecina, nCosto);
   }
 
   /**
-  *Evalúa la función de costo de la solución
+  * Cuenta las ciudades conectadas
+  * @return el número de ciudades conectadas
   */
-  public double costo(){
-    double suma = 0.0; //para acumular distancias
-    for(int i = 1; i < solucion.length; ++i)
-      suma += aplicaCastigo(solucion[i - 1], solucion[i]);
-    return (suma / this.encuentraConectadas());
-  }
-
-  /**
-  *Encuentra el subconjunto de ciudades conectadas
-  */
-  private int encuentraConectadas(){
+  private double cuentaConectadas(){
     int c = 0;
     for(int i = 1; i < solucion.length; ++i){
-      if(TravelingSalesman.distancias[solucion[i]][solucion[i + 1]] > 0)
+      if(TSP.distancias[solucion[i]][solucion[i + 1]] > 0)
         c++;
     }
-    return c;
+    return (double)c;
+  }
+
+
+  /**
+   * Calcula el costo de la solución
+   * @return El costo de la solución
+   */
+  public double costo(){
+  	double suma = 0.0; //acumulador de distancias
+  	for(int i = 1; i < solucion.length; ++i)
+  	    suma += calculaW(solucion[i-1], solucion[i]); //aplica castigo si es necesario
+  	return (suma / (distAvg*(solucion.length-1))); //divide la suma de w's entre promedio por |E|
   }
 
   /**
-  *Dice si una solución es factible
-  */
+   * Nos dice si la solución es factible.
+   * @return <tt>true</tt> si la solución es factible, <tt>false</tt> e.o.c.
+   */
   public boolean esFactible(){
-    for(int i = 0; i < solucion.length - 1; ++i)
-      if(TravelingSalesman.getDistancia(solucion[i], solucion[i + 1]) == TravelingSalesman.DX_OMISION)
-        return false;
-    return true;
+  	for(int i = 0; i < solucion.length-1; ++i)
+  	    if(TSP.getDistancia(solucion[i], solucion[i+1]) == TSP.DX_OMISION)
+  		return false;
+  	return true;
   }
 
   /**
-  *Obtiene la distancia máxima entre ciudades de la solución
-  */
-  public double encuentraMax(){
-    double maxima = 0;
-    for(int i = 0; i < solucion.length; i++)
-      for(int j = i; j < solucion.length; j++)
-        if(TravelingSalesman.distancias[solucion[i]][solucion[j]] > maxima)
-          maxima = TravelingSalesman.distancias[solucion[i]][solucion[j]];
-    return maxima;
+   * Busca la distancia máxima entre los elementos de la solución.
+   * @return La distancia máxima entre el par más alejado de la solución
+   */
+  public double distMax(){
+  	double max = 0;
+  	for(int i = 0; i < solucion.length; i++)
+  	    for(int j = i; j < solucion.length; j++)
+  		if(TSP.distancias[solucion[i]][solucion[j]] > max)
+  		    max = TSP.distancias[solucion[i]][solucion[j]];
+  	return max;
   }
 
   /**
-  *Obtiene el promedio de distancias
-  */
-  public double calculaProm(){
-    int distancias = 0;
-    double suma = 0.0;
-    for(int i = 0; i < solucion.length; i++)
-      if(TravelingSalesman.distancias[solucion[i]][solucion[i + 1]] > 0){
-        distancias++;
-        suma += TravelingSalesman.distancias[solucion[i]][solucion[i + 1]];
-      }
-    return suma / distancias;
+   * Sacamos el promedio de las distancias existentes en la gráfica.
+   * @return El promedio de las distancias
+   */
+  public double distAvg(){
+  	int distancias = 0; /* El número de distancias sumadas */
+  	double suma = 0; /* La suma de las distancias */
+  	for(int i = 0; i < solucion.length; i++)
+  	    for(int j = i; j < solucion.length; j++)
+  		if(TSP.distancias[solucion[i]][solucion[j]] > 0){
+  		    distancias++;
+  		    suma += TSP.distancias[solucion[i]][solucion[j]];
+  		}
+  	return suma / distancias;
   }
 
   /**
-  *aplica castigo
-  */
-  public static double aplicaCastigo(int i, int j){
-    if(TravelingSalesman.distancias[i][j] > 0)
-      return TravelingSalesman.distancias[i][j];
-    return distMax * C;
+   * Calcula w' para la función de costo, aplica castigo en caso de ser necesario
+   * @param i id de la primera ciudad
+   * @param j id de la segunda ciudad
+   * @return la función w' que regresa la distancia de las ciudades si están conectadas y distMax * C e.o.c.
+   */
+  public static double calculaW(int i, int j){
+  	if(TSP.distancias[i][j] > 0)
+  	    return TSP.distancias[i][j]; //no aplica castigo
+  	else
+  	    return distMax * C; //aplica castigo
   }
 
-  /**
-  *suma de las distancias de una solución
-  */
-  public double suma(){
-    double sum = 0.0;
-    for(int i = 0; i < solucion.length - 1; ++i)
-      sum += TravelingSalesman.getDistancia(solucion[i], solucion[i + 1]);
-    return sum;
-  }
 
   /**
-  *Representación en cadena de una solución
-  */
+   * Devuelve la representación en cadena de una Solución
+   * @return Una cadena con información de la Solución.
+   */
   @Override
   public String toString(){
-    String c = "";
-    c += "Suma distancias: " + suma() + ", Costo: " + getCosto() + ", es factible: " + this.esFactible() + "\n";
-    c += "Ciudades: \n";
-    for(int i : this.solucion)
-      c += i + ", ";
-    c += "\n";
-    return c;
+  	String regreso = ""; /* Cadena a regresar */
+  	regreso += "Costo: " + this.getCosto() + ", factible: " + this.esFactible() + "\n";
+  	regreso += "Ciudades: \n";
+  	for(int ciudad : this.solucion)
+  	    regreso += ciudad + ",";
+  	regreso += "\n";
+  	return regreso;
   }
 
 }

@@ -1,62 +1,68 @@
 package tsp;
-
 /**
-*Representa la conexión con una BD de ciudades
-*@author Kar
-*/
+ * Clase para modelar una conexión a la base de datos
+ * @author Kar
+ */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Conexion{
-  //Conexión de sqlite
+
+   /* Conexión a la base de datos */
   private Connection c = null;
-  private Statement stmt = null;
+  private Statement state = null;
 
   /**
-  *Constructor de la conexión
-  */
+   * Construcción de nuestra conexión
+   */
   public Conexion(){
-    try{
-      Class.forName("org.sqlite.JDBC"); //driver de sqlite
-      c = DriverManager.getConnection("jdbc:sqlite:src/db/tsp.db"); //abre conexión
-    }catch (Exception e){
-      System.err.println(e.getClass().getName() + ": " + e.getMessage());
-      System.exit(0);
-    }
+  	try{
+  	    Class.forName("org.sqlite.JDBC");
+  	    c = DriverManager.getConnection("jdbc:sqlite:db/tsp.db");
+  	    state = c.createStatement();
+  	}catch(Exception e){
+  		System.err.println( e.getClass().getName() + ": " + e.getMessage());
+  		System.exit(0);
+  	}
   }
 
-  public ResultSet consulta(String consulta){
-    ResultSet set = null;
-    try{
-      Statement estado = c.createStatement();
-      set = estado.executeQuery(consulta);
-    }catch(SQLException e){
-      System.err.println(e.getMessage());
-    }
-    return set;
+  /**
+   * Obtiene el resultado de una consulta a la base
+   * @param consulta Cadena con la consulta a realizar.
+   * @return Un <tt>ResultSet</tt> con el resultado de la consulta.
+   */
+  public ResultSet consultaBase(String consulta){
+  	ResultSet set = null;
+  	try{
+  	    set = state.executeQuery(consulta);
+  	}catch(SQLException e){
+  	    System.err.println(e.getMessage());
+  	}
+  	return set;
   }
 
   /**
    * Nos dice si la conexión es válida
-   * @return Si la conexión es válida
-   */
-    public boolean valida(){
-	     try{
-	        return this.c.isValid(0);
-	     }catch(SQLException e){
-	        return false;
-	     }
-     }
+   * @return Si la conexión es válida */
+  public boolean valida(){
+  	try{
+      return this.c.isValid(0);
+  	}catch(SQLException e){
+      return false;
+  	}
+  }
 
-     /**
-     * Cierra la conexión.
-     */
-     public void cierraConexion(){
-	      try { if (stmt != null) stmt.close(); } catch (Exception e) {};
-	      try { if (c != null) c.close(); } catch (Exception e) {};
-      }
+  /**
+   * Cierra la conexión.
+   */
+  public void cierraConexion(){
+  	try{
+      if (state != null)
+        state.close();
+    }catch(Exception e){};
+  	try{
+      if(c != null)
+        c.close();
+    }catch(Exception e){};
+  }
 }
