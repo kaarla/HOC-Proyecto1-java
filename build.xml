@@ -11,7 +11,7 @@
       <zipfileset dir="${build.dir}" prefix="" />
       <zipgroupfileset dir="lib" includes="*.jar"/>
       <manifest>
-        <attribute name="Main-Class" value="tsp.Recocido"/>
+        <attribute name="Main-Class" value="tsp.RecocidoSimulado"/>
       </manifest>
     </jar>
   </target>
