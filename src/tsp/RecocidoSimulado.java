@@ -61,8 +61,8 @@ public class RecocidoSimulado extends Thread{
 
   /**
   * Escribe la solución en un archivo
-  * @param s - La solución a escribir.
-  * @param seed - La semilla con la que se obtuvo la solución (para nombrar el archivo).
+  * @param s Solución a escribir.
+  * @param seed Semilla con la que se obtuvo la solución (para nombrar el archivo).
   */
   public static void escribeArchivo(Solucion s, long seed){
     try{
@@ -79,7 +79,7 @@ public class RecocidoSimulado extends Thread{
 
   /**
    * Ejecuta recocido simulado para la instancia dada, a partir de la semilla recibida
-   * @param args - Lista de argumentos
+   * @param args Argumentos del usuario
    */
   public static void main(String[] args){
   	try{
@@ -91,7 +91,7 @@ public class RecocidoSimulado extends Thread{
       //System.out.println("Semilla:" + seed);
 	    System.out.print(sol);
   	}catch(Exception e){
-      System.err.println("Uso del programa java -jar tsp.jar [semilla] [archivo_ciudades], donde semilla es la semilla a usar y archivo_ciudades es un archivo con los ids de las ciudades de la instancia a evaluar, separados por coma y espacio.");
+      System.err.println("Uso del programa: \n $ java -jar tsp.jar [semilla] [archivo_ciudades]\n donde semilla es la semilla a usar y archivo_ciudades es un archivo con los ids de las ciudades de la instancia a evaluar,\n separados por coma y espacio.");
   	}
    }
 }
