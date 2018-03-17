@@ -151,14 +151,20 @@ public final class TSP{
 
   /**
    * Inicializa instancia
-   * @param seed semilla para el generador de números aleatorios.
    */
-  public static void inicializa(long seed){
-  	semilla = seed;
-  	random = new Random(seed);
+  public static void inicializa(){
   	guardaCiudades();
   	guardaDistancias();
   	c.cierraConexion();
+  }
+
+  /**
+  * Inicializa semilla
+  * @param seed semilla para el generador de números aleatorios.
+  */
+  public static void inicializaSemilla(long seed){
+    semilla = seed;
+    random = new Random(seed);
   }
 
   /**
@@ -171,7 +177,7 @@ public final class TSP{
   	int c = 0;
   	double r = 0;
   	Solucion s1 = null;
-  	int intentos = LOTE * LOTE; // Número máximo de intentos
+  	int intentos = (LOTE * LOTE) / 2; // Número máximo de intentos
   	while(c < LOTE && (intentos-- != 0)){
   	  s1 = s.vecina();
   	  if(s1.getCosto() <= (s.getCosto() + temperatura)){
@@ -193,7 +199,7 @@ public final class TSP{
   	Solucion minima = s;
   	double infinito = Double.MAX_VALUE;
   	double p1;
-    System.out.println("Semilla: " + semilla);
+    //System.out.println("Semilla: " + semilla);
   	while(temperatura > EPSILON){
   	  p1 = 0;
   	  while(Math.abs(infinito - p1) > EPSILONP){
@@ -233,8 +239,8 @@ public final class TSP{
           Par<Double, Solucion> par = calculaLote(temperatura, s);
           infinito = par.primero;
           s = par.segundo;
-          //writer.write("E: "+ s.getCosto() + "\n"); //formato para Canek
-          writer.write(s.getCosto() + "\n"); //formato para mi gráfica
+          writer.write("E: "+ s.getCosto() + "\n"); //formato para Canek
+          //writer.write(s.getCosto() + "\n"); //formato para mi gráfica
           if(s.getCosto() < minima.getCosto()){
             minima = s;
           }

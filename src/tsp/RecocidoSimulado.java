@@ -11,6 +11,8 @@ import java.util.*;
 public class RecocidoSimulado extends Thread{
   // Arreglo de ciudades sobre el que se realiza el recocido
   private static int[] ciudades;
+  private static long[] semillas = new long[1000];
+  private static long semillaActual;
 
 
   /**
@@ -66,15 +68,36 @@ public class RecocidoSimulado extends Thread{
   */
   public static void escribeArchivo(Solucion s, long seed){
     try{
-      File file = new File("pruebas/experimento" + s.getSize() + "-" + seed + ".txt");
+      File file = new File("pruebas/experimento" + s.getSize() /*+ "-" + seed */+ ".txt");
       file.createNewFile();
       FileWriter writer = new FileWriter(file);
-      writer.write(s.toString());
+      writer.write("Semilla: " + seed + "\n" + s.toString());
       writer.flush();
       writer.close();
     }catch(IOException e){
       System.err.println(e.getMessage());
     }
+  }
+
+
+  public void run(){
+    long[] semillero = generaSemillas();
+    for(long e: semillero){
+      TSP.inicializaSemilla(e);
+      Solucion barajeada = barajea(ciudades, e);
+      Solucion sol = TSP.aceptacionPorUmbrales(4.0, barajeada);
+      System.out.println("Semilla: " + e + "\n" + sol);
+      //escribeArchivo(sol, e);
+    }
+  }
+
+  public static long[] generaSemillas(){
+    //semillas[0] = 77785;
+    //semillas[1] = 934522;
+    long[] semillero = new long[300];
+    for(int i = 0; i < semillero.length; i++)
+      semillero[i] = Math.abs(new Random().nextLong());
+    return semillero;
   }
 
   /**
@@ -83,13 +106,21 @@ public class RecocidoSimulado extends Thread{
    */
   public static void main(String[] args){
   	try{
-	    long seed = Long.parseLong(args[0]);
+	    //long seed = Long.parseLong(args[0]);
 	    leeInstancia(args[1]);
-	    TSP.inicializa(seed);
-      Solucion barajeada = barajea(ciudades, seed);
-	    Solucion sol = TSP.aceptacionPorUmbralesGuarda(4.0, barajeada); //Esto se puede lanzar en varios hilo
-      //System.out.println("Semilla:" + seed);
-	    System.out.print(sol);
+	    TSP.inicializa();
+      //generaSemillas();
+      //for(long e: semillas){
+        //semillaActual = e;
+        //System.out.println("semillaActual" + semillaActual);
+        //TSP.inicializaSemilla(seed);
+        (new RecocidoSimulado()).start();
+        (new RecocidoSimulado()).start();
+        (new RecocidoSimulado()).start();
+        // Solucion barajeada = barajea(ciudades, seed);
+  	    // Solucion sol = TSP.aceptacionPorUmbralesGuarda(4.0, barajeada); //Esto se puede lanzar en varios hilos
+  	    // System.out.print(sol);
+    //  }
   	}catch(Exception e){
       System.err.println("Uso del programa: \n $ java -jar tsp.jar [semilla] [archivo_ciudades]\n donde semilla es la semilla a usar y archivo_ciudades es un archivo con los ids de las ciudades de la instancia a evaluar,\n separados por coma y espacio.");
   	}
