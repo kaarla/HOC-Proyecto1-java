@@ -94,7 +94,7 @@ public class RecocidoSimulado extends Thread{
   public static long[] generaSemillas(){
     //semillas[0] = 77785;
     //semillas[1] = 934522;
-    long[] semillero = new long[300];
+    long[] semillero = new long[500];
     for(int i = 0; i < semillero.length; i++)
       semillero[i] = Math.abs(new Random().nextLong());
     return semillero;
@@ -114,6 +114,7 @@ public class RecocidoSimulado extends Thread{
         //semillaActual = e;
         //System.out.println("semillaActual" + semillaActual);
         //TSP.inicializaSemilla(seed);
+        (new RecocidoSimulado()).start();
         (new RecocidoSimulado()).start();
         (new RecocidoSimulado()).start();
         (new RecocidoSimulado()).start();
