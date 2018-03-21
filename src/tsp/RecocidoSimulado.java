@@ -62,24 +62,8 @@ public class RecocidoSimulado extends Thread{
   }
 
   /**
-  * Escribe la solución en un archivo
-  * @param s Solución a escribir.
-  * @param seed Semilla con la que se obtuvo la solución (para nombrar el archivo).
+  * Método que llama las acciones que se van a realizar dentro de cada hilo de ejecución
   */
-  public static void escribeArchivo(Solucion s, long seed){
-    try{
-      File file = new File("pruebas/experimento" + s.getSize() /*+ "-" + seed */+ ".txt");
-      file.createNewFile();
-      FileWriter writer = new FileWriter(file);
-      writer.write("Semilla: " + seed + "\n" + s.toString());
-      writer.flush();
-      writer.close();
-    }catch(IOException e){
-      System.err.println(e.getMessage());
-    }
-  }
-
-
   public void run(){
     long[] semillero = generaSemillas();
     for(long e: semillero){
@@ -87,13 +71,14 @@ public class RecocidoSimulado extends Thread{
       Solucion barajeada = barajea(ciudades, e);
       Solucion sol = TSP.aceptacionPorUmbrales(4.0, barajeada);
       System.out.println("Semilla: " + e + "\n" + sol);
-      //escribeArchivo(sol, e);
     }
   }
 
+  /**
+  * Genera un arreglo con semillas generadas aleatoriamente.
+  * @return un arreglo de semillas
+  */
   public static long[] generaSemillas(){
-    //semillas[0] = 77785;
-    //semillas[1] = 934522;
     long[] semillero = new long[500];
     for(int i = 0; i < semillero.length; i++)
       semillero[i] = Math.abs(new Random().nextLong());
