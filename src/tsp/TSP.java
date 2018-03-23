@@ -235,7 +235,7 @@ public final class TSP{
   	Solucion minima = s;
     System.out.println("Semilla: " + semilla);
   	try{
-      File file = new File("graficas/evaluacion-" + semilla + ".txt");
+      File file = new File("graficas/evaluacion-" + semilla + "-" + s.getSolucion().length + ".txt");
       file.createNewFile();
       FileWriter writer = new FileWriter(file, true);
       double infinito = Double.MAX_VALUE;
@@ -247,8 +247,8 @@ public final class TSP{
           Par<Double, Solucion> par = calculaLote(temperatura, s);
           infinito = par.primero;
           s = par.segundo;
-          writer.write("E: "+ s.getCosto() + "\n"); //formato para Canek
-          //writer.write(s.getCosto() + "\n"); //formato para mi gráfica
+          //writer.write("E: "+ s.getCosto() + "\n"); //formato para Canek
+          writer.write(s.getCosto() + "\n"); //formato para mi gráfica
           if(s.getCosto() < minima.getCosto()){
             minima = s;
           }

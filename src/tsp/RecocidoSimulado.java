@@ -95,21 +95,9 @@ public class RecocidoSimulado extends Thread{
 	    long e = Long.parseLong(args[0]);
 	    leeInstancia(args[1]);
 	    TSP.inicializa();
-    //para varias
-    // int n = 2;
-    // Thread[] hilos = new Thread[n];
-    // for(int i = 0; i < n; i++){ //para cada hilo en hilos va a ejecutar
-    //   hilos[i] = (new RecocidoSimulado()); //crea nuevo hilo con el algoritmo 0 (Dekker)
-    //   hilos[i].start(); //inicializa hilo
-    // }
-    // for(int i = 0; i < n; i++) //para esperar que termine la ejecución de cada hilo lanzado
-    //   hilos[i].join();
-    //   .start();
-      //(new RecocidoSimulado()).start();
-    //Para una sola
       TSP.inicializaSemilla(e);
       Solucion barajeada = barajea(ciudades, e);
-      Solucion sol = TSP.aceptacionPorUmbrales(4.0, barajeada);
+      Solucion sol = TSP.aceptacionPorUmbralesGuarda(4.0, barajeada);
       System.out.println("Semilla: " + e + "\n" + sol);
 
   	}catch(Exception e){
