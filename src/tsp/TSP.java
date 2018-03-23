@@ -37,8 +37,11 @@ public final class TSP{
   public static long semilla;
 
   /**
-  *
+  * Constructor
   */
+  // public TSP(){
+  //
+  // }
 
   /**
    * Crea una conexión con la base de datos

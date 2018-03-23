@@ -10,7 +10,7 @@ import java.util.*;
 
 public class RecocidoSimulado extends Thread{
   // Arreglo de ciudades sobre el que se realiza el recocido
-  private static int[] ciudades;  
+  private static int[] ciudades;
 
 
   /**
@@ -67,9 +67,10 @@ public class RecocidoSimulado extends Thread{
     for(long e: semillero){
       System.out.println("" + e);
       //TSP.inicializa();
-      TSP.inicializaSemilla(e);
+      TSP t = new TSP();
+      t.inicializaSemilla(e);
       Solucion barajeada = barajea(ciudades, e);
-      Solucion sol = TSP.aceptacionPorUmbrales(4.0, barajeada);
+      Solucion sol = t.aceptacionPorUmbrales(4.0, barajeada);
       System.out.println("Semilla: " + e + "\n" + sol);
     }
   }
@@ -91,25 +92,25 @@ public class RecocidoSimulado extends Thread{
    */
   public static void main(String[] args){
   	try{
-	    //long e = Long.parseLong(args[0]);
+	    long e = Long.parseLong(args[0]);
 	    leeInstancia(args[1]);
 	    TSP.inicializa();
     //para varias
-    int n = 2;
-    Thread[] hilos = new Thread[n];
-    for(int i = 0; i < n; i++){ //para cada hilo en hilos va a ejecutar
-      hilos[i] = (new RecocidoSimulado()); //crea nuevo hilo con el algoritmo 0 (Dekker)
-      hilos[i].start(); //inicializa hilo
-    }
-    for(int i = 0; i < n; i++) //para esperar que termine la ejecución de cada hilo lanzado
-      hilos[i].join();
+    // int n = 2;
+    // Thread[] hilos = new Thread[n];
+    // for(int i = 0; i < n; i++){ //para cada hilo en hilos va a ejecutar
+    //   hilos[i] = (new RecocidoSimulado()); //crea nuevo hilo con el algoritmo 0 (Dekker)
+    //   hilos[i].start(); //inicializa hilo
+    // }
+    // for(int i = 0; i < n; i++) //para esperar que termine la ejecución de cada hilo lanzado
+    //   hilos[i].join();
     //   .start();
       //(new RecocidoSimulado()).start();
     //Para una sola
-      // TSP.inicializaSemilla(e);
-      // Solucion barajeada = barajea(ciudades, e);
-      // Solucion sol = TSP.aceptacionPorUmbrales(4.0, barajeada);
-      // System.out.println("Semilla: " + e + "\n" + sol);
+      TSP.inicializaSemilla(e);
+      Solucion barajeada = barajea(ciudades, e);
+      Solucion sol = TSP.aceptacionPorUmbrales(4.0, barajeada);
+      System.out.println("Semilla: " + e + "\n" + sol);
 
   	}catch(Exception e){
       System.err.println("Uso del programa: \n $ java -jar tsp.jar [semilla] [archivo_ciudades]\n donde semilla es la semilla a usar y archivo_ciudades es un archivo con los ids de las ciudades de la instancia a evaluar,\n separados por coma y espacio.");
