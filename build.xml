@@ -48,9 +48,7 @@
       <doctitle><![CDATA[<h1>Traveling Salesman Problem</h1>]]></doctitle>
       <link href="http://docs.oracle.com/javase/8/docs/api/" />
       <link href="http://docs.oracle.com/javafx/2/api/" />
-      <classpath>
-        <pathelement location="${lib.dir}/junit.jar" />
-        <pathelement location="${lib.dir}/hamcrest-core.jar" />
+      <classpath>        
 	<pathelement location="${lib.dir}/sqlite-jdbc-3.16.1.jar" />
       </classpath>
     </javadoc>
