@@ -37,6 +37,10 @@ public final class TSP{
   public static long semilla;
 
   /**
+  *
+  */
+
+  /**
    * Crea una conexión con la base de datos
    * @return conexión con la base de datos
    */
@@ -209,6 +213,7 @@ public final class TSP{
     		  return minima;
     		infinito = par.primero;
     		s = par.segundo;
+        //System.out.println(s);
     		if(s.getCosto() < minima.getCosto())
     		  minima = s;
   	  }
