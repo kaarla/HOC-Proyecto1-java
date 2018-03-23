@@ -13,4 +13,4 @@ Donde [semilla] es un long e [instancia.txt] es un archivo que contiene la lista
 de las ciudades de la instancia de TSP para la que se buscará solución; los identificadores de las ciudades
 deben estar separados por comas.
 
-Avance del reporte: https://www.overleaf.com/14973199rtqtqcrnpgxx
+Avance del reporte: https://www.overleaf.com/read/nvhvyrbghhhm
