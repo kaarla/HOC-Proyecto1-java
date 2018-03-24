@@ -63,10 +63,9 @@ public class RecocidoSimulado extends Thread{
   * Método que llama las acciones que se van a realizar dentro de cada hilo de ejecución
   */
   public void run(){
-    long[] semillero = {2213997418309752741l};//generaSemillas();
+    long[] semillero = generaSemillas();
     for(long e: semillero){
       System.out.println("" + e);
-      //TSP.inicializa();
       TSP t = new TSP();
       t.inicializaSemilla(e);
       Solucion barajeada = barajea(ciudades, e);

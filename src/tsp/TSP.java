@@ -26,7 +26,7 @@ public final class TSP{
   // Tamaño del lote
   public static final int LOTE = 500;
   // Epsilon para la temperatura
-  public static final double EPSILON = 0.0001;
+  public static final double EPSILON = 0.00001;
   //equilibrio térmico
   public static final double EPSILONP = 0.0001;
   // Factor de enfriamiento
@@ -200,7 +200,6 @@ public final class TSP{
   	Solucion minima = s;
   	double infinito = Double.MAX_VALUE;
   	double p1;
-    //System.out.println("Semilla: " + semilla);
   	while(temperatura > EPSILON){
   	  p1 = 0;
   	  while(Math.abs(infinito - p1) > EPSILONP){
@@ -210,50 +209,11 @@ public final class TSP{
     		  return minima;
     		infinito = par.primero;
     		s = par.segundo;
-        //System.out.println(s);
     		if(s.getCosto() < minima.getCosto())
     		  minima = s;
   	  }
   	  temperatura *= PHI;
   	}
   	return minima;
-  }
-
-  /**
-   * Método de aceptación por umbrales en el recocido simulado, guarda todas las evaluaciones de las soluciones
-   * @param temperatura temperatura inicial
-   * @param s - solución inicial
-   * @return La mejor solución obtenida
-   */
-  public static Solucion aceptacionPorUmbralesGuarda(double temperatura, Solucion s){
-  	Solucion minima = s;
-    System.out.println("Semilla: " + semilla);
-  	try{
-      File file = new File("graficas/evaluacion-" + semilla + "-" + s.getSolucion().length + ".txt");
-      file.createNewFile();
-      FileWriter writer = new FileWriter(file, true);
-      double infinito = Double.MAX_VALUE;
-      double p1;
-      while(temperatura > EPSILON){
-        p1 = 0;
-        while(Math.abs(infinito - p1) > EPSILONP){
-          p1 = infinito;
-          Par<Double, Solucion> par = calculaLote(temperatura, s);
-          infinito = par.primero;
-          s = par.segundo;
-          //writer.write("E: "+ s.getCosto() + "\n"); //formato para Canek
-          writer.write(s.getCosto() + "\n"); //formato para mi gráfica
-          if(s.getCosto() < minima.getCosto()){
-            minima = s;
-          }
-        }
-        temperatura *= PHI;
-      }
-      writer.flush();
-      writer.close();
-  	}catch(IOException e){
-  	  System.out.println(e.getMessage());
-  	}
-  	return minima;
-  }
+  }  
 }
