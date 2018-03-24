@@ -96,7 +96,7 @@ public class RecocidoSimulado extends Thread{
 	    TSP.inicializa();
       TSP.inicializaSemilla(e);
       Solucion barajeada = barajea(ciudades, e);
-      Solucion sol = TSP.aceptacionPorUmbralesGuarda(4.0, barajeada);
+      Solucion sol = TSP.aceptacionPorUmbrales(4.0, barajeada);
       System.out.println("Semilla: " + e + "\n" + sol);
 
   	}catch(Exception e){
